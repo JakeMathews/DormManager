@@ -24,30 +24,51 @@
 		margin-bottom: 1em;
 		margin-top: 1em;
 	}
+	.error {
+		color: red;
+	}
 	</style>
 	
 </head>
 
 <body>
 
+<?php
+	$iderror = $passworderror = "";
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST") { 
+			// Clean data
+			$id = cleanData($_POST["id"]);
+			$password = cleanData($_POST["password"]);
+			if(empty($id)) {
+				$iderror = "* Student ID is a required field";
+				//return;
+			}
+			if(empty($password)) {
+				$passworderror = "* Password is a required field";
+				//return;
+			}
+		}
+		
+		function cleanData($data) {
+			$data = trim($data);
+			$data = stripslashes($data);
+			$data = htmlspecialchars($data);
+			return $data;
+		}
+?>
+
 <div align="center">
 	<div class="container">
 		<h1>Dorm Maker</h1>
-		<form action="index.php" method="post">
+		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 			<font size="4em">
-				<label>Student ID</label> <input type="text" name="id" id="margin"><br>
-				<label>Password</label> <input type="text" name="password" id = "margin"><br>
+				<label>Student ID</label> <input type="text" name="id" id="margin"><span class="error"><?php echo $iderror?></span><br>
+				<label>Password</label> <input type="password" name="password" id="margin"><span class="error"><?php echo $passworderror?></span><br>
 				<input type="submit" id="submit" class="submit">
 			</font>
 		</form>
 	</div>
-	<?php
-		if($_SERVER["REQUEST_METHOD"] == "POST") {
-			echo($_POST["id"]);
-			//$name = $_POST["id"];
-			$_SERVER["REQUEST_METHOD"] = NULL;
-		}
-	?>
 </div>
 
 </body> 
