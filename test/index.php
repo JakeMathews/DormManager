@@ -42,11 +42,21 @@
 			$password = cleanData($_POST["password"]);
 			if(empty($id)) {
 				$iderror = "* Student ID is a required field";
-				//return;
+			} else if(!is_numeric($id)) {
+				$iderror = "* Student ID is a number";
 			}
 			if(empty($password)) {
 				$passworderror = "* Password is a required field";
 				//return;
+			}
+			
+			// Check for errors
+			if(empty($iderror) && empty($passworderror)) {
+				// Check user data with database
+				
+				
+				
+				// If valid go to next page with sessionID
 			}
 		}
 		
